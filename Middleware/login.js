@@ -2,20 +2,20 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require('util');
 const User = require("../Models/User");
 const catchAsync = require("../utils/catchAsync");
+const appError = require("../utils/appError");
 
 
 exports.Login = catchAsync(async (req, res, next) => {
     // bringin out the token from the reqst header
     let token;
-    console.log(req.headers.authorization);
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.jwt) {
+
+        token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies?.jwt) {
         // allowing the access to the protected route if we have jwt cookie
-        token = req.cookies.jwt;
+        token = req?.cookies?.jwt;
     }
 
-    console.log("token is", token);
     if (!token) {
         return next(new appError('please login to get access', 401))
     }

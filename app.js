@@ -10,6 +10,8 @@ const globalErrorHandler = require("./utils/globalError")
 const mongoose = require('mongoose');
 const adminRouter = require('./Routes/adminRoutes');
 const authRoute = require('./Routes/authRoutes');
+const branchRouter = require('./Routes/branchRoutes');
+const crpRouter = require('./Routes/cprRoute');
 
 env.config({ path: "./config.env" })
 
@@ -43,7 +45,8 @@ mongoose.connect(MONGO_URL, {
 
 app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/admin", adminRouter)
-// app.use("/api/v1/branch")
+app.use("/api/v1/branch", branchRouter)
+app.use("/api/v1/crp", crpRouter)
 
 /**
  * admin -> create branches (name/id,password)

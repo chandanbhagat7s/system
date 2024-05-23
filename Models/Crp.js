@@ -3,34 +3,23 @@ const { default: mongoose } = require("mongoose");
 
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const crpSchema = new mongoose.Schema({
 
-    Branchname: {
-        type: String,
-        required: [true, "please provide your branch name to create new Branch"]
-    },
-    createdBy: {
-        required: [true, "must have a creater"],
+    infoCollectorName: {
         type: mongoose.mongo.ObjectId,
-        ref: "user"
+        required: [true, "please provide the information about information collactor"]
     },
-    branchAdminData: {
-        required: [true, "must have a Branch Admin"],
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    ofBranch: {
         type: mongoose.mongo.ObjectId,
-        ref: "user"
+        required: [true, "must belong to Branch "],
+        ref: "branch"
     },
-    infoCollectores: {
-        type: [mongoose.mongo.ObjectId],
-        ref: "user"
-    },
-    infoConfirmer: {
-        type: mongoose.mongo.ObjectId,
-        ref: "user"
-    },
-    accountent: {
-        type: mongoose.mongo.ObjectId,
-        ref: "user"
-    }
+
+
 
 
 
