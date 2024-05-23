@@ -1,11 +1,10 @@
 
 const { default: mongoose } = require("mongoose");
 
-const bcrypt = require('bcryptjs');
 
 const crpSchema = new mongoose.Schema({
 
-    infoCollectorName: {
+    infoCollectorData: {
         type: mongoose.mongo.ObjectId,
         required: [true, "please provide the information about information collactor"]
     },
@@ -18,6 +17,30 @@ const crpSchema = new mongoose.Schema({
         required: [true, "must belong to Branch "],
         ref: "branch"
     },
+    information: {
+        type: Object,
+        required: [true, "must have an information to transfer further and process on it"]
+    },
+    remark: {
+        type: String,
+        required: [true, "must have status "]
+    },
+    confirm: {
+        type: Boolean,
+        default: false
+
+    },
+    confirmBy: {
+        type: mongoose.mongo.ObjectId,
+        ref: "user"
+    },
+    confirmInfo: {
+        type: Object
+    },
+    reasonForCancellation: {
+        type: String
+    },
+
 
 
 
@@ -32,49 +55,12 @@ const crpSchema = new mongoose.Schema({
 
 
 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
-        return next()
-    }
-
-    this.password = await bcrypt.hash(this.password, 12);
-
-    next()
-
-})
 
 
 
-userSchema.methods.changedPasswords = async function (jwttokentime) {
-    if (this.changedPasswodTime) {
-        const change = parseInt(this.changedPasswodTime.getTime() / 1000, 10)
-        // console.log(jwttokentime, this.changedPasswodTime.getTime() / 1000);
-        // console.log(jwttokentime, change);
-        // console.log(jwttokentime < change);
-        return jwttokentime < change
-    }
+const Cpr = mongoose.model("branch", crpSchema);
 
-
-    // if user has not change the password at least once 
-    return false;
-}
-
-
-
-
-
-
-userSchema.methods.correctPass = async function (inputpassword, password) {
-    let t = await bcrypt.compare(inputpassword, password)
-    console.log(t);
-    return t
-}
-
-
-
-const Branch = mongoose.model("branch", userSchema);
-
-module.exports = Branch;
+module.exports = Cpr;
 
 
 
