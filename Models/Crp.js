@@ -58,7 +58,7 @@ const crpSchema = new mongoose.Schema({
 
 
 
-const Cpr = mongoose.model("branch", crpSchema);
+const Cpr = mongoose.model("cpr", crpSchema);
 
 module.exports = Cpr;
 

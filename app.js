@@ -2,6 +2,7 @@
 const express = require('express');
 const env = require('dotenv');
 
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const app = express()
 const globalErrorHandler = require("./utils/globalError")
@@ -27,6 +28,7 @@ app.use(express.json())
 
 app.use(morgan('dev'))
 
+app.use(cookieParser());
 
 
 mongoose.connect(MONGO_URL, {

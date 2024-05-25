@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const branchSchema = new mongoose.Schema({
 
     Branchname: {
         type: String,
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.pre('save', async function (next) {
+branchSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next()
     }
@@ -56,7 +56,7 @@ userSchema.pre('save', async function (next) {
 
 
 
-userSchema.methods.changedPasswords = async function (jwttokentime) {
+branchSchema.methods.changedPasswords = async function (jwttokentime) {
     if (this.changedPasswodTime) {
         const change = parseInt(this.changedPasswodTime.getTime() / 1000, 10)
         // console.log(jwttokentime, this.changedPasswodTime.getTime() / 1000);
@@ -75,7 +75,7 @@ userSchema.methods.changedPasswords = async function (jwttokentime) {
 
 
 
-userSchema.methods.correctPass = async function (inputpassword, password) {
+branchSchema.methods.correctPass = async function (inputpassword, password) {
     let t = await bcrypt.compare(inputpassword, password)
     console.log(t);
     return t
@@ -83,7 +83,7 @@ userSchema.methods.correctPass = async function (inputpassword, password) {
 
 
 
-const Branch = mongoose.model("branch", userSchema);
+const Branch = mongoose.model("branch", branchSchema);
 
 module.exports = Branch;
 

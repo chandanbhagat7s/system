@@ -45,7 +45,7 @@ exports.createBranch = catchAsync(async (req, res, next) => {
 
     res.status(200).send({
         status: "success",
-        message: "Branch Created Successfully !"
+        msg: "Branch Created Successfully !"
     })
 
 

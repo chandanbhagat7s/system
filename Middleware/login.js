@@ -8,6 +8,7 @@ const appError = require("../utils/appError");
 exports.Login = catchAsync(async (req, res, next) => {
     // bringin out the token from the reqst header
     let token;
+    console.log(req.cookies);
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 
         token = req.headers.authorization.split(' ')[1];
@@ -16,9 +17,11 @@ exports.Login = catchAsync(async (req, res, next) => {
         token = req?.cookies?.jwt;
     }
 
+
     if (!token) {
         return next(new appError('please login to get access', 401))
     }
+
 
 
     const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY)

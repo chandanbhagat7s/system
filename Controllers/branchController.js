@@ -5,9 +5,9 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
 
-    const { infoCollectorName, password, email } = req.body;
+    const { name, password, email } = req.body;
 
-    if (!infoCollectorName || !password || !email) {
+    if (!name || !password || !email) {
         return next(new appError("Please Enter all the details to create a new information's collector account", 400))
     }
 
@@ -20,8 +20,14 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
         return next(new appError("email already exist please try diffrent email id", 400))
     }
 
+    const branch = await Branch.findOne({
+        branchAdminData: req.user._id
+    })
+
     const newUser = await User.create({
-        name: infoCollectorName, email, password, role: "CPR_COLLECTOR"
+        name: name, email, password, role: "CPR_COLLECTOR",
+        branchData: branch._id
+
     })
 
     if (!newUser) {
@@ -44,7 +50,7 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
     }
     res.status(200).send({
         status: "success",
-        message: "Account created of information collector !"
+        msg: "Account created of information collector !"
     })
 
 
@@ -55,9 +61,9 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
 
 exports.createInfoConfirmerAccount = catchAsync(async (req, res, next) => {
 
-    const { infoConfirmer, password, email } = req.body;
+    const { name, password, email } = req.body;
 
-    if (!infoConfirmer || !password || !email) {
+    if (!name || !password || !email) {
         return next(new appError("Please Enter all the details to create a new information's collector account", 400))
     }
 
@@ -69,9 +75,13 @@ exports.createInfoConfirmerAccount = catchAsync(async (req, res, next) => {
     if (existingUser) {
         return next(new appError("email already exist please try diffrent email id", 400))
     }
+    const branch = await Branch.findOne({
+        branchAdminData: req.user._id
+    })
 
     const newUser = await User.create({
-        name: infoConfirmer, email, password, role: "CPR_COLLECTOR"
+        name: name, email, password, role: "CPR_CONFIRMER",
+        branchData: branch._id
     })
 
     if (!newUser) {
@@ -92,7 +102,7 @@ exports.createInfoConfirmerAccount = catchAsync(async (req, res, next) => {
     }
     res.status(200).send({
         status: "success",
-        message: "Account created of information confirmer !"
+        msg: "Account created of information confirmer !"
     })
 
 
@@ -104,9 +114,9 @@ exports.createInfoConfirmerAccount = catchAsync(async (req, res, next) => {
 
 exports.createAccountent = catchAsync(async (req, res, next) => {
 
-    const { accountentName, password, email } = req.body;
+    const { name, password, email } = req.body;
 
-    if (!accountentName || !password || !email) {
+    if (!name || !password || !email) {
         return next(new appError("Please Enter all the details to create a new information's collector account", 400))
     }
 
@@ -118,9 +128,13 @@ exports.createAccountent = catchAsync(async (req, res, next) => {
     if (existingUser) {
         return next(new appError("email already exist please try diffrent email id", 400))
     }
+    const branch = await Branch.findOne({
+        branchAdminData: req.user._id
+    })
 
     const newUser = await User.create({
-        name: accountentName, email, password, role: "CPR_ACCOUNTENT"
+        name: name, email, password, role: "CPR_ACCOUNTENT",
+        branchData: branch._id
     })
 
     if (!newUser) {
@@ -141,7 +155,7 @@ exports.createAccountent = catchAsync(async (req, res, next) => {
     }
     res.status(200).send({
         status: "success",
-        message: "Account created of Accountent !"
+        msg: "Account created of Accountent !"
     })
 
 
