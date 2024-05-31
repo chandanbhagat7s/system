@@ -13,6 +13,7 @@ const adminRouter = require('./Routes/adminRoutes');
 const authRoute = require('./Routes/authRoutes');
 const branchRouter = require('./Routes/branchRoutes');
 const crpRouter = require('./Routes/cprRoute');
+const taskRouter = require('./Routes/taskRoutes');
 
 env.config({ path: "./config.env" })
 
@@ -49,6 +50,9 @@ app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/admin", adminRouter)
 app.use("/api/v1/branch", branchRouter)
 app.use("/api/v1/crp", crpRouter)
+app.use("/api/v1/task", taskRouter)
+// app.use("/api/v1/student", studentrouter)
+
 
 /**
  * admin -> create branches (name/id,password)

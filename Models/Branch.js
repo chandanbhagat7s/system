@@ -30,6 +30,14 @@ const branchSchema = new mongoose.Schema({
     accountent: {
         type: mongoose.mongo.ObjectId,
         ref: "user"
+    },
+    teachers: {
+        type: [mongoose.mongo.ObjectId],
+        ref: "user"
+    },
+    headOfTeacher: {
+        type: mongoose.mongo.ObjectId,
+        ref: "user"
     }
 
 
