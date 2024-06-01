@@ -38,6 +38,10 @@ const branchSchema = new mongoose.Schema({
     headOfTeacher: {
         type: mongoose.mongo.ObjectId,
         ref: "user"
+    },
+    principal: {
+        type: mongoose.mongo.ObjectId,
+        ref: "user"
     }
 
 

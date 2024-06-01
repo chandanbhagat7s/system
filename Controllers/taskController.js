@@ -1,3 +1,4 @@
+const Branch = require("../Models/Branch");
 const Task = require("../Models/Task");
 const appError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -68,8 +69,47 @@ exports.getAllTasks = catchAsync(async (req, res, next) => {
 
 
 
+exports.getQueryData = catchAsync(async (req, res, next) => {
+
+    const { branchId, teachersId } = req.params;
+    if (!branchId || !teachersId) {
+        return next(new appError("please query with valid data", 400))
+    }
+
+    const allTasks = await Task.find({
+        ofBranch: branchId,
+        byTeacher: teachersId
+    }).populate("byTeacher")
+
+    res.status(200).send({
+        status: "success",
+        data: allTasks
+    })
+})
 
 
+exports.getAllTeahersData = catchAsync(async (req, res, next) => {
+    const data = await Branch.findById(req.user.branchData).populate("teachers")
+
+    res.status(200).send({
+        status: "success",
+        data: data.teachers
+    })
+})
+
+
+
+
+// exports.getAllRatedTask = catchAsync(async (req, res, next) => {
+//     const allTasks = await Task.find({
+//         ofBranch: req.user.branchData,
+//     }).populate("byTeacher")
+
+//     res.status(200).send({
+//         status: "success",
+//         data: allTasks
+//     })
+// })
 
 
 
