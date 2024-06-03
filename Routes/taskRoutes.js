@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { submitTeacherTaskWithRating, getAllTasks, submitTaskRatingByHead, getAllTeahersData, getQueryData } = require('../Controllers/taskController');
+const { submitTeacherTaskWithRating, getAllTasks, submitTaskRatingByHead, getAllTeahersData, getQueryData, submitTaskRatingByPricipal } = require('../Controllers/taskController');
 const { Login } = require('../Middleware/login');
 const giveAccess = require('../Middleware/userAccess');
 const taskRouter = express.Router()
@@ -12,6 +12,7 @@ taskRouter.use(giveAccess("TEACHERS_HEAD", "PRINCIPAL"))
 taskRouter.get("/:branchId/:teachersId", getQueryData)
 taskRouter.get("/getAllTeachersData", getAllTeahersData)
 taskRouter.post("/submitRatingOnTaskByHead", submitTaskRatingByHead)
+taskRouter.post("/submitRatingOnTaskByPrincipal", submitTaskRatingByPricipal)
 
 module.exports = taskRouter
 

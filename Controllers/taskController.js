@@ -4,7 +4,7 @@ const appError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.submitTeacherTaskWithRating = catchAsync(async (req, res, next) => {
-    const { taskData, teacherRatingData } = req.body;
+    const { taskData, teacherRatingData, teachersRatingScore } = req.body;
     if (!taskData || !teacherRatingData) {
         return next(new appError("please fill both the form  ", 400))
     }
@@ -12,7 +12,8 @@ exports.submitTeacherTaskWithRating = catchAsync(async (req, res, next) => {
         ofBranch: req.user.branchData,
         byTeacher: req.user._id,
         teacherRatingData,
-        taskData
+        taskData,
+        teachersRatingScore
     })
     if (!newtask) {
         return next(new appError("something went wrong ", 400))
@@ -31,7 +32,7 @@ exports.submitTeacherTaskWithRating = catchAsync(async (req, res, next) => {
 
 
 exports.submitTaskRatingByHead = catchAsync(async (req, res, next) => {
-    const { taskId, headRatingData } = req.body;
+    const { taskId, headRatingData, HeadOfTachersRatingScore } = req.body;
 
     if (!headRatingData) {
         return next(new appError("please fill the  form  ", 400))
@@ -39,7 +40,8 @@ exports.submitTaskRatingByHead = catchAsync(async (req, res, next) => {
     const newtask = await Task.findByIdAndUpdate(taskId, {
         ofBranch: req.user.branchData,
         byHead: req.user._id,
-        headRatingData
+        headRatingData,
+        HeadOfTachersRatingScore
     })
     if (!newtask) {
         return next(new appError("something went wrong ", 400))
@@ -100,17 +102,31 @@ exports.getAllTeahersData = catchAsync(async (req, res, next) => {
 
 
 
-// exports.getAllRatedTask = catchAsync(async (req, res, next) => {
-//     const allTasks = await Task.find({
-//         ofBranch: req.user.branchData,
-//     }).populate("byTeacher")
+exports.submitTaskRatingByPricipal = catchAsync(async (req, res, next) => {
+    const { taskId, headRatingData, principleRatingScore } = req.body;
 
-//     res.status(200).send({
-//         status: "success",
-//         data: allTasks
-//     })
-// })
+    if (!headRatingData) {
+        return next(new appError("please fill the  form  ", 400))
+    }
+    const newtask = await Task.findByIdAndUpdate(taskId, {
+        ofBranch: req.user.branchData,
+        byHead: req.user._id,
+        headRatingData,
+        principleRatingScore
+    })
+    if (!newtask) {
+        return next(new appError("something went wrong ", 400))
+    }
 
+    res.status(200).send({
+        status: "success",
+        msg: " rating submitted"
+    })
+
+
+
+
+})
 
 
 

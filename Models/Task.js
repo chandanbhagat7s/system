@@ -36,6 +36,18 @@ const taskSchema = new mongoose.Schema({
     },
     adminRatingData: {
         type: Object,
+    },
+    teachersRatingScore: {
+        type: Number,
+        required: [true, "Rating count by teacher must be submited"]
+    },
+    HeadOfTachersRatingScore: {
+        type: Number,
+
+    },
+    principleRatingScore: {
+        type: Number,
+
     }
 
 
