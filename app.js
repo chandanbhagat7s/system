@@ -1,6 +1,7 @@
 
 const express = require('express');
 const env = require('dotenv');
+const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -21,9 +22,12 @@ env.config({ path: "./config.env" })
 const MONGO_URL = process.env.MONGOURL
 const PORT = process.env.PORT
 
+const corsOptions = {
+    origin: "*", // Allow all origins
+    credentials: false // Credentials cannot be true when origin is '*'
+};
 
-
-
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
