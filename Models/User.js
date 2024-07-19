@@ -7,16 +7,19 @@ const userSchema = new mongoose.Schema({
 
     name: {
         type: String,
-        required: [true, "please provide your name"]
+        required: [true, "please provide your name"],
+        trim: true
     },
     password: {
         type: String,
         required: [true, "please provide your password"],
+        trim: true
 
     },
     email: {
         type: String,
-        required: [true, "please provide your emailID"]
+        required: [true, "please provide your emailID"],
+        trim: true
 
     },
     role: {

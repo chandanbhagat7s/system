@@ -3,12 +3,16 @@ const User = require("../Models/User");
 const appError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
+exports.createAccountsCRMroles = catchAsync(async (req, res, next) => {
 
-    const { name, password, email } = req.body;
+    const { name, password, email, role } = req.body;
 
     if (!name || !password || !email) {
         return next(new appError("Please Enter all the details to create a new information's collector account", 400))
+    }
+    if (role !== "CPR_COLLECTOR" && role !== "CPR_CONFIRMER" && role !== "CPR_ACCOUNTENT") {
+        return next(new appError("please provide valid role", 400))
+
     }
 
     const existingUser = await User.findOne({
@@ -25,7 +29,7 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
     })
 
     const newUser = await User.create({
-        name: name, email, password, role: "CPR_COLLECTOR",
+        name: name, email, password, role,
         branchData: branch._id
 
     })
@@ -36,14 +40,26 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
 
 
 
-
-    const branchData = await Branch.findOneAndUpdate({
-        branchAdminData: req.user._id,
-    }, {
-        $push: {
+    let branchData;
+    if (role == "CPR_COLLECTOR") {
+        branchData = await Branch.findOneAndUpdate({
+            branchAdminData: req.user._id,
+        }, {
             infoCollectores: newUser._id
-        }
-    })
+        })
+    } else if (role == "CPR_CONFIRMER") {
+        branchData = await Branch.findOneAndUpdate({
+            branchAdminData: req.user._id,
+        }, {
+            infoConfirmer: newUser._id
+        })
+    } else {
+        branchData = await Branch.findOneAndUpdate({
+            branchAdminData: req.user._id,
+        }, {
+            accountent: newUser._id
+        })
+    }
 
     if (!branchData) {
         return next(new appError("Somoething went wrong please try again", 400))
@@ -59,110 +75,7 @@ exports.createInfoCollectorAccount = catchAsync(async (req, res, next) => {
 
 })
 
-exports.createInfoConfirmerAccount = catchAsync(async (req, res, next) => {
 
-    const { name, password, email } = req.body;
-
-    if (!name || !password || !email) {
-        return next(new appError("Please Enter all the details to create a new information's collector account", 400))
-    }
-
-    const existingUser = await User.findOne({
-        email: email
-    })
-
-
-    if (existingUser) {
-        return next(new appError("email already exist please try diffrent email id", 400))
-    }
-    const branch = await Branch.findOne({
-        branchAdminData: req.user._id
-    })
-
-    const newUser = await User.create({
-        name: name, email, password, role: "CPR_CONFIRMER",
-        branchData: branch._id
-    })
-
-    if (!newUser) {
-        return next(new appError("Somoething went wrong please try again", 400))
-    }
-
-
-
-
-    const branchData = await Branch.findOneAndUpdate({
-        branchAdminData: req.user._id,
-    }, {
-        infoConfirmer: newUser._id
-    })
-
-    if (!branchData) {
-        return next(new appError("Somoething went wrong please try again", 400))
-    }
-    res.status(200).send({
-        status: "success",
-        msg: "Account created of information confirmer !"
-    })
-
-
-
-
-
-})
-
-
-exports.createAccountent = catchAsync(async (req, res, next) => {
-
-    const { name, password, email } = req.body;
-
-    if (!name || !password || !email) {
-        return next(new appError("Please Enter all the details to create a new information's collector account", 400))
-    }
-
-    const existingUser = await User.findOne({
-        email: email
-    })
-
-
-    if (existingUser) {
-        return next(new appError("email already exist please try diffrent email id", 400))
-    }
-    const branch = await Branch.findOne({
-        branchAdminData: req.user._id
-    })
-
-    const newUser = await User.create({
-        name: name, email, password, role: "CPR_ACCOUNTENT",
-        branchData: branch._id
-    })
-
-    if (!newUser) {
-        return next(new appError("Somoething went wrong please try again", 400))
-    }
-
-
-
-
-    const branchData = await Branch.findOneAndUpdate({
-        branchAdminData: req.user._id,
-    }, {
-        accountent: newUser._id
-    })
-
-    if (!branchData) {
-        return next(new appError("Somoething went wrong please try again", 400))
-    }
-    res.status(200).send({
-        status: "success",
-        msg: "Account created of Accountent !"
-    })
-
-
-
-
-
-})
 
 
 exports.createTeacher = catchAsync(async (req, res, next) => {
