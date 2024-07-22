@@ -35,7 +35,8 @@ const createTokenSendRes = (id, res, statusCode, data) => {
     // we will set cookies 
     res.status(statusCode).json({
         status: "success",
-        data
+        data,
+        token
 
     })
 }
