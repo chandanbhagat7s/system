@@ -11,7 +11,7 @@ exports.Login = catchAsync(async (req, res, next) => {
     console.log(req.cookies);
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 
-        token = req.headers.authorization.split(' ')[1];
+        token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies?.jwt) {
         // allowing the access to the protected route if we have jwt cookie
         token = req?.cookies?.jwt;

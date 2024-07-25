@@ -6,6 +6,7 @@ const crpSchema = new mongoose.Schema({
 
     infoCollectorData: {
         type: mongoose.mongo.ObjectId,
+        ref: "user",
         required: [true, "please provide the information about information collactor"]
     },
     createdAt: {
@@ -35,7 +36,9 @@ const crpSchema = new mongoose.Schema({
         ref: "user"
     },
     confirmInfo: {
-        type: Object
+        type: mongoose.mongo.ObjectId,
+        ref: "info",
+
     },
     reasonForCancellation: {
         type: String

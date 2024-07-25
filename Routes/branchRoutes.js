@@ -4,13 +4,16 @@ const { createInfoCollectorAccount, createInfoConfirmerAccount, createAccountent
 
 const { Login } = require('../Middleware/login');
 const giveAccess = require('../Middleware/userAccess');
+const { createCourse, createCourseMiddleware, updateCourse, deleteCourse, updateCourseMiddleware } = require('../Controllers/lmsController');
 
 const branchRouter = express.Router()
 
 
 branchRouter.use(Login, giveAccess("BRANCH_ADMIN"))
 branchRouter.post("/create/createAccountRoles", createAccountsCRMroles)
-
+branchRouter.post("/createCourse", createCourseMiddleware, createCourse)
+branchRouter.patch("/updateCourse/:id", updateCourseMiddleware, updateCourse)
+branchRouter.delete("/deleteCourse/:id", deleteCourse)
 
 
 branchRouter.post("/create/teachersAccount", createTeacher)

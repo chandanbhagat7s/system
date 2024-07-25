@@ -1,0 +1,24 @@
+accoutent (each branch access)
+1.show chain 
+2.data -> course allocation , fee online/offline 
+    create student account --> login --> courses /fee(installment 3months , 6months,recipt downlode ) / attendence / homework /exam dates / paratice papers/progress report  ....
+    (LMS (student ,teachers) updation )
+
+
+  online -> payment getway 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

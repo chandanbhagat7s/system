@@ -1,5 +1,5 @@
 
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, mongo } = require("mongoose");
 
 const bcrypt = require('bcryptjs');
 
@@ -42,6 +42,14 @@ const branchSchema = new mongoose.Schema({
     principal: {
         type: mongoose.mongo.ObjectId,
         ref: "user"
+    },
+    students: {
+        type: [mongoose.mongo.ObjectId],
+        ref: "user"
+    },
+    course: {
+        type: [mongoose.mongo.ObjectId],
+        ref: "course"
     }
 
 
